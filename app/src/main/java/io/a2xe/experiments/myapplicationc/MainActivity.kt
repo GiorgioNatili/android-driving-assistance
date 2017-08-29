@@ -1,7 +1,6 @@
 package io.a2xe.experiments.myapplicationc
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -25,10 +24,22 @@ class MainActivity : AppCompatActivity() {
         tv.text = stringFromJNI()
 
         // Button to call OpenCV Camera Activity
-        val cameraInit = findViewById(R.id.cameraInit) as Button
+        val cameraInit = findViewById(R.id.camera_init) as Button
         cameraInit.setOnClickListener {
            openCamera()
         }
+
+        // Button to call Local Video Activity
+        val localVideoInit = findViewById(R.id.local_video_init) as Button
+        localVideoInit.setOnClickListener {
+            openLocalVideo()
+        }
+    }
+
+    private fun openLocalVideo() {
+
+        val intent = Intent(applicationContext, ReproduceVideoActivity::class.java)
+        startActivity(intent)
     }
 
     @AfterPermissionGranted(REQUEST_PERMISSION_CAMERA)

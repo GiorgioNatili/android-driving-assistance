@@ -1,5 +1,7 @@
 package io.a2xe.experiments.myapplicationc
 
+import android.Manifest
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -8,6 +10,8 @@ import android.widget.Button
 import android.widget.TextView
 
 import org.opencv.android.OpenCVLoader
+import pub.devrel.easypermissions.AfterPermissionGranted
+import pub.devrel.easypermissions.EasyPermissions
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,16 +27,47 @@ class MainActivity : AppCompatActivity() {
         // Button to call OpenCV Camera Activity
         val cameraInit = findViewById(R.id.cameraInit) as Button
         cameraInit.setOnClickListener {
-
-            val intent = Intent(applicationContext, OpenCVCamera::class.java)
-            startActivity(intent)
+           openCamera()
         }
     }
 
-    @AfterPermissionGranted(REQUEST_PERMISSION_GET_ACCOUNTS)
-    private fun chooseAccount() {
+    @AfterPermissionGranted(REQUEST_PERMISSION_CAMERA)
+    private fun openCamera() {
 
+        if (EasyPermissions.hasPermissions(this, Manifest.permission.CAMERA)) {
 
+            val intent = Intent(applicationContext, OpenCVCamera::class.java)
+            startActivity(intent)
+
+        } else {
+
+            EasyPermissions.requestPermissions(
+                    this,
+                    getString(R.string.access_camera_required),
+                    REQUEST_PERMISSION_CAMERA,
+                    Manifest.permission.CAMERA)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int,
+                                            permissions: Array<String>,
+                                            grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        EasyPermissions.onRequestPermissionsResult(
+                requestCode, permissions, grantResults, this)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, intentData: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, intentData)
+        when (requestCode) {
+
+            REQUEST_PERMISSION_CAMERA -> {
+
+                val intent = Intent(applicationContext, OpenCVCamera::class.java)
+                startActivity(intent)
+            }
+        }
     }
 
     /**
@@ -41,9 +76,13 @@ class MainActivity : AppCompatActivity() {
      */
     external fun stringFromJNI(): String
 
+    /**
+     * Static methods and values have to be stored in the companion object
+     */
     companion object {
 
         private val TAG = "MainActivity"
+        const internal val REQUEST_PERMISSION_CAMERA = 1003
 
         // Used to load the 'native-lib' library on application startup.
         init {

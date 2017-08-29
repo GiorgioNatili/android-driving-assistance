@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">My ApplicationC</string>
     <string name="title_activity_open_cvcamera">OpenCVCamera</string>
+    <string name="access_camera_required">You need to grant access to the camera</string>
 </resources>

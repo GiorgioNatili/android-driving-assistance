@@ -104,6 +104,8 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
     override fun onCameraFrame(inputFrame: CameraBridgeViewBase.CvCameraViewFrame): Mat {
 
         var image = inputFrame.rgba()
+        var imageGray: Mat?
+
         val ret_mat = Mat()
 //        Core.add(image, Scalar(40.0, 40.0, 40.0, 0.0), ret_mat) //change brightness of video frame
 
@@ -123,16 +125,15 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
             VIEW_MODE_FEATURES -> {
                 // input frame has RGBA format
                 image = inputFrame.rgba()
-                image = inputFrame.gray()
-               // FindFeatures(mGray.getNativeObjAddr(), mRgba.getNativeObjAddr())
+                imageGray = inputFrame.gray()
+                FindFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
             }
         }
 
         return image
-
-
-       // return inputFrame.rgba()
     }
+
+    external fun FindFeatures(grayMat: Long, rgbaMat: Long)
 
     companion object {
 

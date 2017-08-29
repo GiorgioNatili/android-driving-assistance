@@ -65,5 +65,3 @@ freeline.py
 freeline/
 freeline_project_description.json
 
-#OpenCV Library
-openCVLibrary330/build

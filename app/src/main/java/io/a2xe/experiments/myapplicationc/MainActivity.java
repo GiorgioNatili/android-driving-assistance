@@ -1,8 +1,11 @@
 package io.a2xe.experiments.myapplicationc;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import org.opencv.android.OpenCVLoader;
@@ -30,6 +33,16 @@ public class MainActivity extends AppCompatActivity {
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
         tv.setText(stringFromJNI());
+
+        // Button to call OpenCV Camera Activity
+        Button cameraInit = (Button) findViewById(R.id.cameraInit);
+        cameraInit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), OpenCVCamera.class);
+                startActivity(i);
+            }
+        });
     }
 
     /**

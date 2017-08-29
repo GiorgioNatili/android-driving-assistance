@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="io.a2xe.experiments.myapplicationc.OpenCVCamera"
+    tools:showIn="@layout/activity_open_cvcamera">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:opencv="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/activity_opencv_camera"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        tools:context="com.example.sriraghu95.opencvandroid_anintroduction.OpenCVCamera">
+
+        <org.opencv.android.JavaCameraView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:id="@+id/camera_view"
+            opencv:show_fps="true"
+            opencv:camera_id="any"/>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>

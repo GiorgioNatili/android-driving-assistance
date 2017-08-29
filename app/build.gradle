@@ -31,7 +31,7 @@ android {
 //    sourceSets {
 //        main { jni.srcDirs = ['src/main/jni', 'src/main/jni/AAAAA', 'src/main/STOCAZZZO'] }
 //    }
-     sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jniLibs'] } }
+    sourceSets { main { jni.srcDirs = ['src/main/jni', 'src/main/jniLibs'] } }
 }
 
 dependencies {
@@ -39,8 +39,9 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile project(':openCVLibrary330')
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha7'
+    compile 'com.android.support:design:26.+'
     testCompile 'junit:junit:4.12'
-    compile project(':openCVLibrary330')
 }

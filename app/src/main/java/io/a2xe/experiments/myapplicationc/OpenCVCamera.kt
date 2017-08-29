@@ -2,6 +2,7 @@ package io.a2xe.experiments.myapplicationc
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
 
@@ -38,6 +39,11 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
 
         window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         setContentView(R.layout.activity_open_cvcamera)
+
+        val toolbar = findViewById(R.id.toolbar) as Toolbar
+        toolbar.setTitle(R.string.app_name)
+
+        setSupportActionBar(toolbar)
 
         cameraBridgeViewBase = findViewById(R.id.camera_view) as CameraBridgeViewBase
         cameraBridgeViewBase!!.visibility = SurfaceView.VISIBLE

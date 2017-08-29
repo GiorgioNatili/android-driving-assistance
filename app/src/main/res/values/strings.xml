@@ -2,4 +2,8 @@
     <string name="app_name">My ApplicationC</string>
     <string name="title_activity_open_cvcamera">OpenCVCamera</string>
     <string name="access_camera_required">You need to grant access to the camera</string>
+    <string name="preview_rgba">Preview RGBA</string>
+    <string name="gray_preview">Preview GRAY</string>
+    <string name="preview_canny">Canny</string>
+    <string name="preview_features">Find features</string>
 </resources>

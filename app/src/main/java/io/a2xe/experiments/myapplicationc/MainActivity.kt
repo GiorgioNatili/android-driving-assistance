@@ -34,11 +34,23 @@ class MainActivity : AppCompatActivity() {
         localVideoInit.setOnClickListener {
             openLocalVideo()
         }
+
+        // Button to call Color Detection Activity
+        val colorDetectInit = findViewById(R.id.color_detect_init) as Button
+        colorDetectInit.setOnClickListener {
+            openColorDetect()
+        }
     }
 
     private fun openLocalVideo() {
 
         val intent = Intent(applicationContext, ReproduceVideoActivity::class.java)
+        startActivity(intent)
+    }
+
+    private fun openColorDetect() {
+
+        val intent = Intent(applicationContext, ColorDetectionActivity::class.java)
         startActivity(intent)
     }
 

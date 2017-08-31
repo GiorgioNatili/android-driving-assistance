@@ -43,7 +43,8 @@
             android:name=".OpenCVCamera"
             android:label="@string/title_activity_open_cvcamera"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".ReproduceVideoActivity"></activity>
+        <activity android:name=".ReproduceVideoActivity" />
+        <activity android:name=".ColorDetectionActivity"></activity>
     </application>
 
 </manifest>

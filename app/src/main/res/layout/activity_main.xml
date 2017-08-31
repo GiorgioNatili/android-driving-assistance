@@ -25,6 +25,14 @@
         android:text="@string/open_local_video"
         tools:layout_editor_absoluteX="8dp" />
 
+    <Button
+        android:id="@+id/color_detect_init"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/open_color_detect"
+        tools:layout_editor_absoluteX="16dp" />
+
     <TextView
         android:id="@+id/sample_text"
         android:layout_width="match_parent"

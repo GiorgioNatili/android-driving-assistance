@@ -8,4 +8,5 @@
     <string name="preview_features">Find features</string>
     <string name="opencv_camera">OpenCV Camera</string>
     <string name="open_local_video">Open Local Video</string>
+    <string name="open_color_detect">Open Color Detect</string>
 </resources>

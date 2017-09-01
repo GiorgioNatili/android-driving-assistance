@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
+import io.a2xe.experiments.myapplicationc.detectors.LaneDetector
 import org.opencv.android.*
 
 import org.opencv.core.Core
@@ -22,6 +23,7 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
     private lateinit var previewCanny: MenuItem
     private lateinit var previewFeatures: MenuItem
     private lateinit var previewBinary: MenuItem
+    private lateinit var previewLines: MenuItem
 
     private var viewMode: Int = Int.MAX_VALUE
 
@@ -33,6 +35,8 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
             }
         }
     }
+
+    private lateinit var laneDetector: LaneDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -74,6 +78,7 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         previewCanny = menu.add(getString(R.string.preview_canny))
         previewFeatures = menu.add(getString(R.string.preview_features))
         previewBinary = menu.add(getString(R.string.preview_binary))
+        previewLines = menu.add(getString(R.string.preview_lines))
 
         return true
     }
@@ -92,6 +97,8 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
             viewMode = VIEW_MODE_FEATURES
         } else if (item === previewBinary) {
             viewMode = VIEW_MODE_BINARY
+        } else if (item === previewLines) {
+            viewMode = VIEW_MODE_LINES
         }
 
         return true
@@ -99,6 +106,7 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
 
     override fun onCameraViewStarted(width: Int, height: Int) {
 
+        laneDetector = LaneDetector(width, height)
     }
 
     override fun onCameraViewStopped() {
@@ -142,16 +150,21 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
                 Imgproc.cvtColor(ret_mat, image, Imgproc.COLOR_GRAY2RGBA, 4)
 
                 Imgproc.GaussianBlur(imageGray, blur1, Size(15.0, 15.0), 5.0)
-                Imgproc.GaussianBlur(imageGray, blur2, Size(21.0, 21.0), 5.0)
+                Imgproc.GaussianBlur(imageGray, blur2, Size(21.0, 21.0), 15.0)
 
                 val gaussianDifference = Mat()
                 Core.absdiff(blur1, blur2, gaussianDifference)
 
                 Core.multiply(gaussianDifference, Scalar(100.00), gaussianDifference)
                 Imgproc.threshold(gaussianDifference, image, 50.0, 255.0, Imgproc.THRESH_BINARY_INV)
-
-                //Utils.matToBitmap(gaussianDifference, image)
             }
+
+            VIEW_MODE_LINES -> {
+
+                laneDetector.processFrame(image)
+                image = laneDetector.hough
+            }
+
         }
 
         return image
@@ -168,5 +181,9 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         private val VIEW_MODE_CANNY = 2
         private val VIEW_MODE_FEATURES = 5
         private val VIEW_MODE_BINARY = 10
+        private val VIEW_MODE_LINES = 20
+
+//        @JvmStatic var mFrameWidth: Int = 0
+//        @JvmStatic var mFrameHeight: Int = 0
     }
 }

@@ -22,7 +22,9 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
     private lateinit var itemPreviewGray: MenuItem
     private lateinit var previewCanny: MenuItem
     private lateinit var previewFeatures: MenuItem
+    private lateinit var previewBinaryFeatures: MenuItem
     private lateinit var previewBinary: MenuItem
+
     private lateinit var previewLines: MenuItem
 
     private var viewMode: Int = Int.MAX_VALUE
@@ -77,6 +79,7 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         itemPreviewGray = menu.add(getString(R.string.gray_preview))
         previewCanny = menu.add(getString(R.string.preview_canny))
         previewFeatures = menu.add(getString(R.string.preview_features))
+        previewBinaryFeatures = menu.add(getString(R.string.binary_features))
         previewBinary = menu.add(getString(R.string.preview_binary))
         previewLines = menu.add(getString(R.string.preview_lines))
 
@@ -95,6 +98,8 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
             viewMode = VIEW_MODE_CANNY
         } else if (item === previewFeatures) {
             viewMode = VIEW_MODE_FEATURES
+        } else if (item === previewBinaryFeatures) {
+            viewMode = VIEW_MODE_BINARY_DETECTOR
         } else if (item === previewBinary) {
             viewMode = VIEW_MODE_BINARY
         } else if (item === previewLines) {
@@ -119,7 +124,7 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         var imageGray: Mat?
 
         val ret_mat = Mat()
-//        Core.add(image, Scalar(40.0, 40.0, 40.0, 0.0), ret_mat) //change brightness of video frame
+        // Core.add(image, Scalar(40.0, 40.0, 40.0, 0.0), ret_mat) // change brightness of a frame
 
         when (viewMode) {
             VIEW_MODE_GRAY ->
@@ -134,11 +139,19 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
                 Imgproc.Canny(inputFrame.gray(), ret_mat, 80.0, 100.0)
                 Imgproc.cvtColor(ret_mat, image, Imgproc.COLOR_GRAY2RGBA, 4)
             }
+
             VIEW_MODE_FEATURES -> {
                 // input frame has RGBA format
                 image = inputFrame.rgba()
                 imageGray = inputFrame.gray()
                 FindFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
+            }
+
+            VIEW_MODE_BINARY_DETECTOR -> {
+                // input frame has RGBA format
+                image = inputFrame.rgba()
+                imageGray = inputFrame.gray()
+                FindBinaryFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
             }
 
             VIEW_MODE_BINARY -> {
@@ -171,6 +184,7 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
     }
 
     external fun FindFeatures(grayMat: Long, rgbaMat: Long)
+    external fun FindBinaryFeatures(grayMat: Long, rgbaMat: Long)
 
     companion object {
 
@@ -182,8 +196,6 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         private val VIEW_MODE_FEATURES = 5
         private val VIEW_MODE_BINARY = 10
         private val VIEW_MODE_LINES = 20
-
-//        @JvmStatic var mFrameWidth: Int = 0
-//        @JvmStatic var mFrameHeight: Int = 0
+        private val VIEW_MODE_BINARY_DETECTOR = 30
     }
 }

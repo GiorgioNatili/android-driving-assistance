@@ -5,10 +5,11 @@
     <string name="preview_rgba">Preview RGBA</string>
     <string name="gray_preview">Preview GRAY</string>
     <string name="preview_canny">Canny</string>
-    <string name="preview_features">Find features</string>
+    <string name="preview_features">Features Detector (red)</string>
     <string name="opencv_camera">OpenCV Camera</string>
     <string name="open_local_video">Open Local Video</string>
     <string name="open_color_detect">Open Color Detect</string>
     <string name="preview_binary">Binary Image</string>
     <string name="preview_lines">Lines Detector</string>
+    <string name="binary_features">Binary Features Detector (yellow)</string>
 </resources>

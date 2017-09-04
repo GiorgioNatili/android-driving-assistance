@@ -12,8 +12,10 @@ using namespace cv;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_FindFeatures(JNIEnv*, jobject /* this */,
-                                                                  jlong addrGray, jlong addrRgba) {
+Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_FindFeatures(
+        JNIEnv*,
+        jobject /* this */,
+        jlong addrGray, jlong addrRgba) {
 
     Mat& mGr  = *(Mat*)addrGray;
     Mat& mRgb = *(Mat*)addrRgba;
@@ -54,6 +56,7 @@ JNIEXPORT jstring JNICALL
 Java_io_a2xe_experiments_myapplicationc_MainActivity_stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
+
     std::string hello = "Hello from C++";
     return env->NewStringUTF(hello.c_str());
 }
@@ -61,11 +64,13 @@ Java_io_a2xe_experiments_myapplicationc_MainActivity_stringFromJNI(
 extern "C"
 JNIEXPORT void JNICALL
 Java_io_a2xe_experiments_myapplicationc_ReproduceVideoActivity_openVideo(
-        JNIEnv*,
+        JNIEnv* env,
         jobject /* this */,
-        char file) {
+        jstring path) {
 
-    CvCapture *camera = cvCaptureFromFile(&file);
+    const char* nPath = env->GetStringUTFChars(path, NULL);
+
+    CvCapture *camera = cvCaptureFromFile(nPath);
     if (camera == NULL)
         printf("camera is null\n");
     else

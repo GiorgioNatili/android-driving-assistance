@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.v4.media.session.MediaControllerCompat.setMediaController
 import android.widget.MediaController
 import android.widget.VideoView
-
+import org.opencv.videoio.VideoCapture
 
 
 class ReproduceVideoActivity : AppCompatActivity() {
@@ -23,5 +23,9 @@ class ReproduceVideoActivity : AppCompatActivity() {
         video.setVideoPath("android.resource://" + packageName + "/" + R.raw.staying_in_lane)
         video.start()
         video.requestFocus()
+
+        openVideo("android.resource://" + packageName + "/" + R.raw.staying_in_lane)
     }
+
+    external fun openVideo(file: String)
 }

@@ -61,6 +61,19 @@ Java_io_a2xe_experiments_myapplicationc_MainActivity_stringFromJNI(
     return env->NewStringUTF(hello.c_str());
 }
 
+IplImage* skipNFrames(CvCapture* capture, int n)
+{
+    for(int i = 0; i < n; ++i)
+    {
+        if(cvQueryFrame(capture) == NULL)
+        {
+            return NULL;
+        }
+    }
+
+    return cvQueryFrame(capture);
+}
+
 extern "C"
 JNIEXPORT void JNICALL
 Java_io_a2xe_experiments_myapplicationc_ReproduceVideoActivity_openVideo(
@@ -70,23 +83,26 @@ Java_io_a2xe_experiments_myapplicationc_ReproduceVideoActivity_openVideo(
 
     const char* nPath = env->GetStringUTFChars(path, NULL);
 
-    CvCapture *camera = cvCaptureFromFile(nPath);
-    if (camera == NULL)
+    CvCapture *capture = cvCaptureFromFile(nPath);
+    if (capture == NULL)
         printf("camera is null\n");
     else
         printf("camera is not null");
 
-    cvNamedWindow("img");
-    while (cvWaitKey(10) != atoi("q")){
+    IplImage* frame = NULL;
+
+    do {
+
+        frame = skipNFrames(capture, 4);
 
         double t1 = (double)cvGetTickCount();
-        IplImage *img = cvQueryFrame(camera);
+        IplImage *img = cvQueryFrame(capture);
 
         double t2 = (double)cvGetTickCount();
 
         printf("time: %gms  fps: %.2g\n",(t2-t1)/(cvGetTickFrequency()*1000.), 1000./((t2-t1)/(cvGetTickFrequency()*1000.)));
-        cvShowImage("img",img);
-    }
+    } while(frame != NULL );
 
-    cvReleaseCapture(&camera);
+    cvReleaseCapture(&capture);
 }
+

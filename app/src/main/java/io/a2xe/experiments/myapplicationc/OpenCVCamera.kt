@@ -127,12 +127,15 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         // Core.add(image, Scalar(40.0, 40.0, 40.0, 0.0), ret_mat) // change brightness of a frame
 
         when (viewMode) {
+
             VIEW_MODE_GRAY ->
                 // input frame has gray scale format
                 Imgproc.cvtColor(inputFrame.gray(), image, Imgproc.COLOR_GRAY2RGBA, 4)
+
             VIEW_MODE_RGBA ->
                 // input frame has RBGA format
                 image = inputFrame.rgba()
+
             VIEW_MODE_CANNY -> {
                 // input frame has gray scale format
                 image = inputFrame.rgba()

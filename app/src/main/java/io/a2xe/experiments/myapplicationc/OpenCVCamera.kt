@@ -144,14 +144,14 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
                 // input frame has RGBA format
                 image = inputFrame.rgba()
                 imageGray = inputFrame.gray()
-                FindFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
+                findFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
             }
 
             VIEW_MODE_BINARY_DETECTOR -> {
                 // input frame has RGBA format
                 image = inputFrame.rgba()
                 imageGray = inputFrame.gray()
-                FindBinaryFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
+                findBinaryFeatures(imageGray.nativeObjAddr, image.nativeObjAddr)
             }
 
             VIEW_MODE_BINARY -> {
@@ -183,8 +183,8 @@ class OpenCVCamera : AppCompatActivity(), CameraBridgeViewBase.CvCameraViewListe
         return image
     }
 
-    external fun FindFeatures(grayMat: Long, rgbaMat: Long)
-    external fun FindBinaryFeatures(grayMat: Long, rgbaMat: Long)
+    external fun findFeatures(grayMat: Long, rgbaMat: Long)
+    external fun findBinaryFeatures(grayMat: Long, rgbaMat: Long)
 
     companion object {
 

@@ -12,7 +12,7 @@ using namespace cv;
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_FindFeatures(
+Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_findFeatures(
         JNIEnv*,
         jobject /* this */,
         jlong addrGray, jlong addrRgba) {
@@ -32,7 +32,7 @@ Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_FindFeatures(
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_FindBinaryFeatures(
+Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_findBinaryFeatures(
         JNIEnv*,
         jobject /* this */,
         jlong addrGray, jlong addrRgba) {
@@ -47,7 +47,7 @@ Java_io_a2xe_experiments_myapplicationc_OpenCVCamera_FindBinaryFeatures(
     for( unsigned int i = 0; i < v.size(); i++ )
     {
         const KeyPoint& kp = v[i];
-        circle(mRgb, Point(kp.pt.x, kp.pt.y), 10, Scalar(255,255,0,255));
+        circle(mRgb, Point((int) kp.pt.x, (int) kp.pt.y), 10, Scalar(255, 255, 0, 255));
     }
 }
 
